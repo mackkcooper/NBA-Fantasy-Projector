@@ -1,0 +1,29 @@
+$pri-color:#333;
+$sec-color: #c6c6c6;
+$ter-color: #e1f4f3;
+$qua-color: #706c61;
+
+body {
+    background-color: $sec-color;
+    text-align: center;
+}
+
+h1, label {
+    color: $pri-color;
+}
+
+label {
+    text-align: left;
+}
+
+button.button-primary {
+    background-color: $sec-color;
+    border-color: $sec-color;
+    color: $pri-color;
+}
+
+button.button-primary:hover {
+    background-color: $qua-color;
+    border-color: $qua-color;
+    color: $pri-color;
+}
