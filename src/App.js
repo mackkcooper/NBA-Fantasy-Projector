@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+const $ = window.$;
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="jumbotron">
+          <h1 className="display-1">NBA Fantasy Projector</h1>
+        </div>
       </header>
+      <section className="container" id="player-search">
+        <div className="row form-group">
+          <div className="col-12 label">
+            <label>Enter players to add to your roster:</label>
+          </div>
+          <div className="col-12 col-sm-8 col-lg-9">
+            <input className="form-control" id="player-search-bar" type="text" placeholder="Stephen Curry"></input>
+          </div>
+          <div className="col-12 col-sm-4 col-lg-3">
+            <button className="btn form-control" type="button" onClick={AddPlayer}>Add Player</button>
+          </div>
+        </div>
+      </section>
     </div>
   );
+}
+
+function AddPlayer() {
+  console.log("Adding player to roster...");
+  console.log("player entered: " + $("#player-search-bar").val());
 }
 
 export default App;
