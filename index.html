@@ -2,12 +2,12 @@
 
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-
         <title>NBA Fantasy Projector</title>
+        <meta charset="utf-8">
         <meta name="description" content="NBA Fantasy Projector">
         <meta name="author" content="Mack Cooper & Santi Tobon">
 
+        <!--Favicon-->
         <link rel="icon" sizes="48x48" href="images/favicon.ico">
         <link rel="icon" sizes="16x16" href="images/favicon-16x16.png">
         <link rel="icon" sizes="32x32" href="images/favicon-32x32.png">
@@ -15,35 +15,48 @@
         <link rel="icon" sizes="192x192" href="images/android-chrome-192x192.png">
         <link rel="icon" sizes="512x512" href="images/android-chrome-512x512.png">
         
-        <link rel="stylesheet" type="text/css" href="css/normalize.css">
-        <link rel="stylesheet" type="text/css" href="css/skeleton.css">
+        <!--Bootstrap-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+        <!--Custom Stylesheet-->
         <link rel="stylesheet" type="text/css" href="css/custom.css">
     </head>
 
-    <body>
-        <h1 class="section-heading">Fantasy Basketball Projector</h1>
-        <div class="container">
-            <div class="row section">
-                <div class="eight columns">
-                    <input name="playername" type="text" placeholder="e.g. Stephen Curry" class="u-full-width">
-                </div>
-                <div class="four columns">
-                    <button name="addplayer" class="button-primary">Add Player</button>
+    <body class="container">
+        <header class="">
+            <h1 class="display-3" id="#">NBA Fantasy Projector</h1>
+            <p>NBA Fantasy Projector allows you to input your roster and then determine how your team will fare across a series of categories!</p>
+            <p>
+                <a class="btn" href="#enter-roster" role="button">Enter Your Roster</a>
+            </p>
+        </header>
 
+        <form class="container">
+            <section class="form-group" id="enter-roster">
+                <label for="find-player-input">Find and add players to your roster:</label>
+                <input class="form-control col-sm-8" type="text" id="add-player-input" placeholder="e.g. Stephen Curry">
+                <button class="btn col-sm-3" id="#add-player-button">Add Player</button>
+            </section>
+            <section id="team-roster"></section>
+            <section class="form-group" id="select-date-range">
+                <label for="select-date-range">Select date range:</label>
+                <div class="input-group" role="group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="start-date-addon">Start Date</span>
+                    </div>
+                    <input class="form-control" type="date" id="start-date-input">
                 </div>
-            </div>
-
-            <div class="row">
-                <label>Enter the date range:</label>
-            </div>
-            <div class="row">
-                <label>Start Date</label>
-                <input name="startdate" type="date" class="u-full-width">
-            </div>
-            <div class="row">
-                <label>End Date</label>
-                <input name="enddate" type="date" class="u-full-width">
-            </div>
-        </div>
+                <br>
+                <div class="input-group" role="group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="end-date-addon">End Date</span>
+                    </div>
+                    <input class="form-control" type="date" id="end-date-input">
+                </div>
+            </section>
+        </form>
     </body>
 </html>

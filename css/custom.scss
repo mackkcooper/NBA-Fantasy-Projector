@@ -1,29 +1,26 @@
-$pri-color:#333;
-$sec-color: #c6c6c6;
-$ter-color: #e1f4f3;
-$qua-color: #706c61;
+$darker:#333;
+$dark: #706c61;
+$light: #c6c6c6;
+$lighter: #e1f4f3;
+
 
 body {
-    background-color: $sec-color;
-    text-align: center;
+    background-color: $lighter;
 }
 
-h1, label {
-    color: $pri-color;
+.btn {
+    background-color: $darker;
+    color: $lighter;
+    border: 1px, solid, $darker;
 }
 
-label {
-    text-align: left;
+.btn:hover {
+    color: $lighter;
+    background-color: $dark;
 }
 
-button.button-primary {
-    background-color: $sec-color;
-    border-color: $sec-color;
-    color: $pri-color;
-}
-
-button.button-primary:hover {
-    background-color: $qua-color;
-    border-color: $qua-color;
-    color: $pri-color;
+.card {
+    background-color: $lighter;
+    color: $darker;
+    align-items: center;
 }
