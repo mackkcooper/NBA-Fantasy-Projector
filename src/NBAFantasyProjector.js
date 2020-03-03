@@ -2,6 +2,7 @@ import React from 'react';
 import './custom.scss';
 import PlayerSearch from './PlayerSearch';
 import Roster from './Roster';
+import DateRange from './DateRange';
 
 class NBAFantasyProjector extends React.Component {
   constructor(props) {
@@ -30,6 +31,8 @@ class NBAFantasyProjector extends React.Component {
         <div>
           <PlayerSearch addPlayer={this.addPlayer}/>
           <Roster players={Array.from(this.state.players.keys())} removePlayer={this.removePlayer}/>
+          <DateRange/>
+          <button className="btn btn-lg">Generate Fantasy Projection</button>
         </div>
       </div>
     );
@@ -40,7 +43,7 @@ class NBAFantasyProjector extends React.Component {
 const site_header = (
   <header className="App-header">
     <div className="jumbotron">
-      <h1 className="display-1">NBA Fantasy Projector</h1>
+      <h1 className="display-3">NBA Fantasy Projector</h1>
     </div>
   </header>
 );

@@ -65,3 +65,10 @@ table {
     color: $primary-font-color;
   }
 }
+
+.input-group {
+  margin-bottom: 1rem;
+  .input-group-text {
+    width: 6rem;
+  }
+}

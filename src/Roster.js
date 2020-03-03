@@ -16,7 +16,7 @@ class Roster extends React.Component {
     var players = this.props.players;
     if(players.length === 0) return null;
     return (
-      <section className="container">
+      <section className="container" id="player-roster">
         <div className="row">
           <div className="col-12">
             <h1>Your Roster:</h1>

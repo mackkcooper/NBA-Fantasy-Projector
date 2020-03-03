@@ -18,7 +18,7 @@ class RosterLine extends React.Component {
         <td>{this.props.index}</td>
         <td>{this.props.name}</td>
         <td width="20px">
-            <button className="btn" type="button" onClick={this.clickEvent}>Remove</button>
+            <button className="btn btn-sm" type="button" onClick={this.clickEvent}>Remove</button>
         </td>
       </tr>
     )
