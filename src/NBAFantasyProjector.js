@@ -10,22 +10,28 @@ class NBAFantasyProjector extends React.Component {
       players: new Map()
     };
     this.addPlayer = this.addPlayer.bind(this);
+    this.removePlayer = this.removePlayer.bind(this);
   }
 
   addPlayer(player) {
     this.setState({players: new Map(this.state.players.set(player, player))}, this.out);
   }
 
+  removePlayer(player) {
+    this.setState({players: new Map(this.state.players.delete(player))}, this.out);
+  }
+
   out() {
     console.log(this.state.players);
   }
+  
   render() {
     return (
       <div>
         {site_header}
         <div>
           <PlayerSearch addPlayer={this.addPlayer}/>
-          <Roster players={Array.from(this.state.players.keys())}/>
+          <Roster players={Array.from(this.state.players.keys())} removePlayer={this.removePlayer}/>
         </div>
       </div>
     );
