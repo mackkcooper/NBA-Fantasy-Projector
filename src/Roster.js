@@ -3,6 +3,7 @@ import './custom.scss';
 
 function Roster(props) {
   var players = props.players;
+  if(players.length === 0) return null;
   return (
     <section className="container">
       <div className="row">
