@@ -1,14 +1,15 @@
 import React from 'react';
 import './custom.scss';
+import RosterLine from './RosterLine';
 
 class Roster extends React.Component {
-  constructor(props) {
-    super(props);
-    this.clickEvent = this.clickEvent.bind(this);
-  }
-
-  clickEvent() {
-    this.props.removePlayer('adam');
+  generateLines() {
+    var removePlayer = this.props.removePlayer;
+    return this.props.players.map(function(name, index) {
+      return (
+        <RosterLine name={name} index={index + 1} removePlayer={removePlayer}/>
+      );
+    });
   }
 
   render() {
@@ -18,7 +19,7 @@ class Roster extends React.Component {
       <section className="container">
         <div className="row">
           <div className="col-12">
-            <label>Your Roster:</label>
+            <h1>Your Roster:</h1>
             <table className="table">
               <thead>
                 <tr>
@@ -28,19 +29,7 @@ class Roster extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {
-                  players.map(function(name, index) {
-                    return (
-                      <tr>
-                        <td>{index}</td>
-                        <td>{name}</td>
-                        <td width="20px">
-                          <button className="btn" type="button">Remove</button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                }
+                {this.generateLines()}
               </tbody>
             </table>
           </div>
