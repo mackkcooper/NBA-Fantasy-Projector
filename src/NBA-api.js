@@ -1,28 +1,36 @@
-
+// import NBA API
 const NBA = require("nba");
-//const curry = NBA.findPlayer('Stephen Curry');
-//console.log(curry);
-//const obj = NBA.stats.playerStats();
+/*
+EXAMPLE
+===================
+const curry = NBA.findPlayer('Stephen Curry');
+console.log(curry);
+const obj = NBA.stats.playerStats();
+*/
 
-function get_firstName(str) { // retrieves the player's first name
+// retrieves the player's first name
+function get_firstName(str) { 
     const player = NBA.findPlayer(str);
     console.log(player.firstName);
     return player.firstName;
 }
 
-function get_lastName(str) { // retrieves the player's last name
+// retrieves the player's last name
+function get_lastName(str) { 
     const player = NBA.findPlayer(str);
     console.log(player.lastName);
     return player.lastName;
 }
 
-function get_fullName(str) { // retrieves the player's full name
+// retrieves the player's full name
+function get_fullName(str) { 
     const player = NBA.findPlayer(str);
     console.log(player);
     return player.fullName;   
 }
 
-function get_teamName(str) { // retrieves the player's team name
+// retrieves the player's team name
+function get_teamName(str) { 
     const player = NBA.findPlayer(str);
     NBA.stats.teamInfoCommon({TeamID: player.teamId})
         .then(team => {
@@ -34,7 +42,8 @@ function get_teamName(str) { // retrieves the player's team name
     //return team.teamName;
 }
 
-function get_teamCity(str) { // retrieves the player's city name
+// retrieves the player's city name
+function get_teamCity(str) { 
     const player = NBA.findPlayer(str);
     NBA.stats.teamInfoCommon({TeamID: player.teamId})
         .then(team => {
@@ -122,4 +131,3 @@ console.log(tname)
 //console.log(city);
 //get_minutes('Damian Lillard');
 //get_draftInfo('Damian Lillard');
-
