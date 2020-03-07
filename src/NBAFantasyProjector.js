@@ -18,7 +18,6 @@ class NBAFantasyProjector extends React.Component {
   }
 
   addPlayer(player) {
-    console.log("add player");
     this.setState({
       players: new Map(this.state.players.set(player, player)),
       startDate: this.state.startDate,
@@ -60,7 +59,6 @@ class NBAFantasyProjector extends React.Component {
     var start = new Date(this.state.startDate);
     var end = new Date(this.state.endDate);
     if(end < start) {
-      console.log("invalid date");
       return (
         <section className="container">
           <div className="row form-group">
@@ -74,7 +72,7 @@ class NBAFantasyProjector extends React.Component {
   }
 
   render() {
-    this.displayState();
+    //this.displayState();
     return (
       <div>
         {site_header}

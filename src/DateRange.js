@@ -33,7 +33,7 @@ class DateRange extends React.Component {
   }
 
   render() {
-    this.displayState();
+    //this.displayState();
     return (
       <section className="container" id="select-date-range">
         <div className="row form-group">
