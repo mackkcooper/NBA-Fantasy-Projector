@@ -26,8 +26,10 @@ function get_teamName(str) { // retrieves the player's team name
     const player = NBA.findPlayer(str);
     NBA.stats.teamInfoCommon({TeamID: player.teamId})
         .then(team => {
-            console.log(team.teamInfoCommon[0].teamName);
-            return team.teamInfoCommon[0].teamName});
+            //console.log(team.teamInfoCommon[0].teamName);
+            const tname = team.teamInfoCommon[0].teamName;
+            //console.log(tname);
+            return tname});
     //console.log(team);
     //return team.teamName;
 }
@@ -44,7 +46,7 @@ function get_draftYear(str) {
     const player = NBA.findPlayer(str);
     NBA.stats.playerInfo({PlayerID: player.playerId})
         .then(player => {
-            console.log(player.commonPlayerInfo[0].draftYear);
+            //console.log(player.commonPlayerInfo[0].draftYear);
             return player.commonPlayerInfo[0].draftYear;
     });
 }
@@ -53,7 +55,7 @@ function get_draftNumber(str) {
     const player = NBA.findPlayer(str);
     NBA.stats.playerInfo({PlayerID: player.playerId})
         .then(player => {
-            console.log(player.commonPlayerInfo[0].draftNumber);
+            //console.log(player.commonPlayerInfo[0].draftNumber);
             return player.commonPlayerInfo[0].draftNumber;
     });
 }
@@ -62,6 +64,7 @@ function get_minutes(str) {
     draftYear = get_draftYear(str);
     draftNumber = get_draftNumber(str);
     console.log(draftYear);
+    console.log(draftNumber);
     NBA.stats.playerStats({DraftYear: draftYear, DraftPick: draftNumber})
     .then(players => 
         console.log(players.leagueDashPlayerStats[0]));
@@ -109,11 +112,14 @@ function get_positions(str) {
 }
 
 // Tests
-//get_fullName('Damian Lillard');
-//get_teamName('Damian Lillard');
+//fullname = get_fullName('Damian Lillard');
+//console.log(fullname)
+tname = get_teamName('Damian Lillard');
+console.log(tname)
 //get_teamCity('Damian Lillard');
 //get_teamName('stephen Curry');
-//get_teamCity('stephen Curry');
-get_minutes('Damian Lillard');
+//city = get_teamCity('stephen Curry');
+//console.log(city);
+//get_minutes('Damian Lillard');
 //get_draftInfo('Damian Lillard');
 
