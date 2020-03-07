@@ -12,7 +12,7 @@ class RosterLine extends React.Component {
   }
 
   render() {
-    console.log(this.props.name);
+    //console.log("RosterLine Props: " + this.props);
     return (
       <tr>
         <td>{this.props.index}</td>

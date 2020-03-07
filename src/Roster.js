@@ -7,12 +7,13 @@ class Roster extends React.Component {
     var removePlayer = this.props.removePlayer;
     return this.props.players.map(function(name, index) {
       return (
-        <RosterLine name={name} index={index + 1} removePlayer={removePlayer}/>
+        <RosterLine name={name} index={index + 1} key={index + 1} removePlayer={removePlayer}/>
       );
     });
   }
 
   render() {
+    //console.log("Roster State: " + this.state);
     var players = this.props.players;
     if(players.length === 0) return null;
     return (

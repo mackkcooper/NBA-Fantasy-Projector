@@ -26,17 +26,18 @@ class PlayerSearch extends React.Component {
   }
 
   render() {
+    //console.log("PlayerSearch State: " + this.state);
     return (
       <section className="container" id="player-search">
         <div className="row form-group">
           <div className="col-12 label">
             <label>Enter players to add to your roster:</label>
           </div>
-          <div className="col-12 col-sm-8 col-lg-9">
-            <input className="form-control" id="player-search-bar" type="text" placeholder="Stephen Curry" value={this.state.playerName} onChange={this.handleChange} onKeyDown={this.pressEnter}></input>
+          <div className="col-12 col-md-8">
+            <input className="input-group form-control form-control-lg" id="player-search-bar" type="text" placeholder="Stephen Curry" value={this.state.playerName} onChange={this.handleChange} onKeyDown={this.pressEnter}></input>
           </div>
-          <div className="col-12 col-sm-4 col-lg-3">
-            <button className="btn form-control" type="button" onClick={this.clickEvent}>Add Player</button>
+          <div className="col-12 col-md-4">
+            <button className="btn btn-lg btn-block" type="button" onClick={this.clickEvent}>Add Player</button>
           </div>
         </div>
       </section>
