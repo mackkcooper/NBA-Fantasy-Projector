@@ -8,6 +8,27 @@ console.log(curry);
 const obj = NBA.stats.playerStats();
 */
 
+// get player info json by player name
+function get_player(player_name, func) {
+    return NBA.findPlayer(player_name);
+}
+// Example: 
+//var player = get_player("Stephen Curry");
+
+// get team name by team id
+function get_team_name(team_id, func) {
+    NBA.stats.teamInfoCommon({TeamID: team_id}).then(
+        result => {
+            var city = result.teamInfoCommon[0].teamCity;
+            var name = result.teamInfoCommon[0].teamName;
+            func(city + " " + name);
+        }
+    );
+}
+// Example: 
+// get_team_name(get_player("Stephen Curry").teamId, insert);
+
+
 // retrieves the player's first name
 function get_firstName(str) { 
     const player = NBA.findPlayer(str);
@@ -37,7 +58,8 @@ function get_teamName(str) {
             //console.log(team.teamInfoCommon[0].teamName);
             const tname = team.teamInfoCommon[0].teamName;
             //console.log(tname);
-            return tname});
+            return tname
+        });
     //console.log(team);
     //return team.teamName;
 }
@@ -123,8 +145,8 @@ function get_positions(str) {
 // Tests
 //fullname = get_fullName('Damian Lillard');
 //console.log(fullname)
-tname = get_teamName('Damian Lillard');
-console.log(tname)
+//tname = get_teamName('Damian Lillard');
+//console.log(tname)
 //get_teamCity('Damian Lillard');
 //get_teamName('stephen Curry');
 //city = get_teamCity('stephen Curry');
