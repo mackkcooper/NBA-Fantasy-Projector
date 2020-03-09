@@ -17,48 +17,75 @@ function get_player(player_name, func) {
 //console.log(player)
 
 // get team name by team id
-function get_team_name(team_id, func) {
+function get_team_name(team_id, player_obj, func) {
     NBA.stats.teamInfoCommon({TeamID: team_id}).then(
         result => {
             var city = result.teamInfoCommon[0].teamCity;
             var name = result.teamInfoCommon[0].teamName;
-            func(city + " " + name);
+            func(city + " " + name, player_obj);
         }
     );
 }
 // Example: 
-//get_team_name(get_player("Stephen Curry").teamId, console.log);
+//var player_obj = {}
+//get_team_name(get_player("Stephen Curry").teamId, player_obj, retrieve_var);
+//console.log("Outside: ", player_obj);
 
-function my_player (player_name) {
+// returns a json obj with all of the information of a player
+function retrieve_player (player_name) {
+    var curr_player = NBA.findPlayer(player_name);
+    const player_id = curr_player.playerID;
+    const team_id = curr_player.teamID
+    var player = {
+        "first_name" : get_firstName(player_id),
+        "last_name"  : get_lastName(player_id),
+        "full_name"  : get_fullName(player_id),
+        "player_id"  : player_id,
+        "team_id"    : team_id,
+/*
+        "team_name"  : get_team_name(curr_player.teamID, retrieve_var),
+        "draft_year" : get_draftYear(curr_player.playerID, retrieve_var),
+        "draft_pick" : get_draftNumber(curr_player.playerID, retrieve_var)
+*/
+    };
+//    get_team_name (curr_player.teamID)
 
+    //console.log(player);
+    return player;
+}
+//Test
+//player = retrieve_player ("Damian Lillard");
+//console.log(player);
 
+function retrieve_var (variable, player_obj) {
+    player_obj['team_name'] = variable;
+    console.log(player_obj);
 }
 
 // retrieves the player's first name
-function get_firstName(str) { 
-    const player = NBA.findPlayer(str);
-    console.log(player.firstName);
+function get_firstName(player_id) { 
+    const player = NBA.findPlayer(player_id);
+    //console.log(player.firstName);
     return player.firstName;
 }
 
 // retrieves the player's last name
-function get_lastName(str) { 
-    const player = NBA.findPlayer(str);
-    console.log(player.lastName);
+function get_lastName(player_id) { 
+    const player = NBA.findPlayer(player_id);
+    //console.log(player.lastName);
     return player.lastName;
 }
 
 // retrieves the player's full name
-function get_fullName(str) { 
-    const player = NBA.findPlayer(str);
-    console.log(player);
+function get_fullName(player_id) { 
+    const player = NBA.findPlayer(player_id);
+    //console.log(player.fullname);
     return player.fullName;   
 }
 
 // retrieves the player's team name
-function get_teamName(str) { 
-    const player = NBA.findPlayer(str);
-    NBA.stats.teamInfoCommon({TeamID: player.teamId})
+function get_teamName(team_id) { 
+    NBA.stats.teamInfoCommon({TeamID: team_id})
         .then(team => {
             //console.log(team.teamInfoCommon[0].teamName);
             const tname = team.teamInfoCommon[0].teamName;
@@ -70,9 +97,8 @@ function get_teamName(str) {
 }
 
 // retrieves the player's city name
-function get_teamCity(str) { 
-    const player = NBA.findPlayer(str);
-    NBA.stats.teamInfoCommon({TeamID: player.teamId})
+function get_teamCity(team_id) { 
+    NBA.stats.teamInfoCommon({TeamID: team_id})
         .then(team => {
             console.log(team.teamInfoCommon[0].teamCity);
             return team.teamInfoCommon[0].teamCity});
@@ -83,7 +109,7 @@ function get_draftYear(player_id, func) {
     NBA.stats.playerInfo({PlayerID: player_id})
         .then(player => {
             //console.log(player.commonPlayerInfo[0].draftYear);
-            func(player.commonPlayerInfo[0].draftYear)
+            return func(player.commonPlayerInfo[0].draftYear)
     });
 }
 
@@ -92,94 +118,95 @@ function get_draftNumber(player_id, func) {
     NBA.stats.playerInfo({PlayerID: player_id})
         .then(player => {
             //console.log(player.commonPlayerInfo[0].draftNumber);
-            func(player.commonPlayerInfo[0].draftNumber);
+            return func(player.commonPlayerInfo[0].draftNumber);
     });
 }
 
 // retrieves the average minutes per game of the player
-function get_minutes(draft_year, draft_number, func) { 
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_minutes(player_id, func) { 
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0])
+        func(players.overallPlayerDashboard[0].min)
     );
 }
 //Tests
-//get_minutes(2019, 1, console.log)
+//var player = get_player("Stephen Curry");
+//get_minutes(player.playerId, console.log);
 
 // retrieves the field goal percentage of the player
-function get_FG(str) {
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_FG(player_id, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0].fgPct)
+        func(players.overallPlayerDashboard[0].fgPct)
     );
 }
 
 // retrieves the free throw percentage of the player
-function get_FT(draft_year, draft_number, func) {
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_FT(player_id, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0].ftPct)
+        func(players.overallPlayerDashboard[0].ftPct)
     );
 }
 
 // retrieves the number of threes made per game of the player
-function get_3pm(draft_year, draft_number, func) {
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_3pm(player_id, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0].fG3M)
+        func(players.overallPlayerDashboard[0].fG3M)
     );
 }
 
 // retrieves the number of rebounds per game of the player
-function get_rebounds(draft_year, draft_number, func) {
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_rebounds(player_id, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0].reb)
+        func(players.overallPlayerDashboard[0].reb)
     );
 }
 
 // retrieves the number of assists per game of the player
-function get_assists(draft_year, draft_number, func) {
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_assists(player_id, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0].ast)
+        func(players.overallPlayerDashboard[0].ast)
     );
 }
 
 // retrieves the number of steals per game of the player
-function get_steals(draft_year, draft_number, func) {
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_steals(player_id, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0].stl)
+        func(players.overallPlayerDashboard[0].stl)
     );
 }
 
 // retrieves the number of blocks per game of the player
-function get_blocks(draft_year, draft_number, func) {
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_blocks(player_id, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0].blk)
+        func(players.overallPlayerDashboard[0].blk)
     );
 }
 
 // retrieves the number of turnovers per game of the player
-function get_turnovers(draft_year, draft_number, func) {
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_turnovers(player_id, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0].tov)
+        func(players.overallPlayerDashboard[0].tov)
     );
 }
 
 // retrieves the number of points per game of the player
-function get_points(draft_year, draft_number, func) {
-    NBA.stats.playerStats({DraftYear: draft_year, DraftPick: draft_number})
+function get_points(player_id, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
     .then(players => 
-        func(players.leagueDashPlayerStats[0].pts)
+        func(players.overallPlayerDashboard[0].pts)
     );
 }
 
 // retrieves the positions of the player
-function get_positions(str) {
+function get_positions(player_id, func) {
 
 }
 
