@@ -4,3 +4,6 @@
 # Sass compiled files
 *.css.map
 custom.css
+
+# Node
+node_modules
