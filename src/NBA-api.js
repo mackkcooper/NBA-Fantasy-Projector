@@ -23,7 +23,7 @@ function retrieve_player(player_name, callback) {
 
 // get team name by team id
 function get_team_name(player_obj, callback) {
-  console.log(player_obj);
+  //console.log(player_obj);
   NBA.stats.teamInfoCommon({TeamID: player_obj.team_id})
   .then( result => {
     var city = result.teamInfoCommon[0].teamCity;
