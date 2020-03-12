@@ -4,27 +4,27 @@ import PlayerSearch from './PlayerSearch';
 import Roster from './Roster';
 import DateRange from './DateRange';
 import Projection from './Projection';
-//import * as NBA from './NBA-api';
+import * as NBA from './NBA-api';
 
-const steph = { 
-  first_name: 'Stephen',
-  last_name: 'Curry',
-  full_name: 'Stephen Curry',
-  player_id: 201939,
-  team_id: 1610612744,
-  team_name: 'Golden State Warriors',
-  position: 'Guard',
-  mins: 27.9,
-  fg_pct: 0.402,
-  ft_pct: 1,
-  threes_pg: 2.4,
-  rebs: 5.2,
-  asts: 6.6,
-  stls: 1,
-  blks: 0.4,
-  tovs: 3.2,
-  pts: 20.8 
-};
+// const steph = { 
+//   first_name: 'Stephen',
+//   last_name: 'Curry',
+//   full_name: 'Stephen Curry',
+//   player_id: 201939,
+//   team_id: 1610612744,
+//   team_name: 'Golden State Warriors',
+//   position: 'Guard',
+//   mins: 27.9,
+//   fg_pct: 0.402,
+//   ft_pct: 1,
+//   threes_pg: 2.4,
+//   rebs: 5.2,
+//   asts: 6.6,
+//   stls: 1,
+//   blks: 0.4,
+//   tovs: 3.2,
+//   pts: 20.8 
+// };
 
 class NBAFantasyProjector extends React.Component {
   constructor(props) {
@@ -43,8 +43,8 @@ class NBAFantasyProjector extends React.Component {
   }
 
   addPlayer(player) {
-    //NBA.retrieve_player(player, console.log);
-    this.insertPlayer(steph);
+    NBA.retrieve_player(player, this.insertPlayer);
+    //this.insertPlayer(steph);
   }
 
   insertPlayer(player_json) {
@@ -53,7 +53,7 @@ class NBAFantasyProjector extends React.Component {
       startDate: this.state.startDate,
       endDate: this.state.endDate,
       projection: this.state.projection
-    }, console.log(this.state));
+    });
   }
 
   displayState() {
@@ -123,7 +123,7 @@ class NBAFantasyProjector extends React.Component {
   }
 
   render() {
-    this.displayState();
+    //this.displayState();
     return (
       <div>
         {site_header}

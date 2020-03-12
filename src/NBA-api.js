@@ -23,17 +23,13 @@ function retrieve_player(player_name, callback) {
 
 // get team name by team id
 function get_team_name(player_obj, callback) {
-  //console.log(player_obj);
   NBA.stats.teamInfoCommon({TeamID: player_obj.team_id})
   .then( result => {
     var city = result.teamInfoCommon[0].teamCity;
     var name = result.teamInfoCommon[0].teamName;
     player_obj["team_name"] = city + " " + name;
     return get_positions(player_obj, callback);
-  })
-  .catch( error => {
-    console.log('Request failed', error);
-  });
+  }, error => errorHandler(error));
 }
 
 // retrieves the positions of the player
@@ -43,10 +39,7 @@ function get_positions(player_obj, callback) {
   .then( player => {
       player_obj["position"] = player.commonPlayerInfo[0].position;
       return get_player_stats(player_obj, callback);
-  })
-  .catch( error => {
-    console.log('Request failed', error);
-  });
+  }, error => errorHandler(error));
 }
 
 function get_player_stats(player_obj, callback) {
@@ -54,10 +47,7 @@ function get_player_stats(player_obj, callback) {
   NBA.stats.playerSplits({PlayerID: player_obj.player_id})
   .then( players => {
     return insert_stats(players, player_obj, callback);
-  })
-  .catch( error => {
-    console.log('Request failed', error);
-  });
+  }, error => errorHandler(error));
 }
 
 function insert_stats(src_player, dest_player, callback) {
@@ -74,4 +64,8 @@ function insert_stats(src_player, dest_player, callback) {
   return callback(dest_player);
 }
 
-export {retrieve_player, get_team_name, get_positions, insert_stats};
+function errorHandler(error) {
+  console.log('Request failed', error);
+}
+
+export {retrieve_player, get_team_name, get_positions, insert_stats, errorHandler};
