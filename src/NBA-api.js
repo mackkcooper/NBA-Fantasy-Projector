@@ -1,20 +1,10 @@
 // import NBA API
 const NBA = require("nba");
-/*
-EXAMPLE
-===================
-const curry = NBA.findPlayer('Stephen Curry');
-console.log(curry);
-const obj = NBA.stats.playerStats();
-*/
 
-// get player info json by player name
-function get_player(player_name, func) {
+// gets a json of player stats by string player_name and returns that json
+function get_player (player_name) {
     return NBA.findPlayer(player_name);
 }
-// Example: 
-//var player = get_player("Stephen Curry");
-//console.log(player)
 
 // get team name by team id
 function get_team_name(team_id, player_obj) {
@@ -26,11 +16,6 @@ function get_team_name(team_id, player_obj) {
         }
     );
 }
-// Example: 
-//var player_obj = {}
-//get_team_name(get_player("Stephen Curry").teamId, player_obj, "team_name");
-//get_team_name(get_player("Stephen Curry").teamId, player_obj, "team_name", retrieve_var);
-//console.log("Outside: ", player_obj);
 
 function get_player_stats (player_id, player_obj, func) {
     NBA.stats.playerSplits({PlayerID: player_id})
@@ -43,7 +28,7 @@ function get_player_stats (player_id, player_obj, func) {
 }
 
 // returns a json obj with all of the information of a player
-function retrieve_player (player_name) {
+function retrieve_player (player_name, func) {
     var curr_player = NBA.findPlayer(player_name);
     var player_id = curr_player.playerId;
     var team_id = curr_player.teamId;
@@ -58,11 +43,8 @@ function retrieve_player (player_name) {
     get_team_name (team_id, player);
     get_positions(player_id, player)
     get_player_stats (player_id, player, insert_stats);
-    return player;
+    func(player);
 }
-//Test
-var player = retrieve_player("Damian Lillard");
-//console.log(player);
 
 function insert_stats (src_player, dest_player) {
     dest_player["mins"] = src_player.overallPlayerDashboard[0].min;
@@ -75,12 +57,10 @@ function insert_stats (src_player, dest_player) {
     dest_player["blks"] = src_player.overallPlayerDashboard[0].blk;
     dest_player["tovs"] = src_player.overallPlayerDashboard[0].tov;
     dest_player["pts"] = src_player.overallPlayerDashboard[0].pts;
-
-    console.log(dest_player);
 }
 
 // retrieves the positions of the player
-function get_positions(player_id, player_obj) {
+function get_positions (player_id, player_obj) {
     NBA.stats.playerInfo({PlayerID: player_id})
         .then(player => {
             player_obj["position"] = player.commonPlayerInfo[0].position;
