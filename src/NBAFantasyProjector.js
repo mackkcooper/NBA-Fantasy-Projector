@@ -3,6 +3,28 @@ import './custom.scss';
 import PlayerSearch from './PlayerSearch';
 import Roster from './Roster';
 import DateRange from './DateRange';
+import Projection from './Projection';
+//import * as NBA from './NBA-api';
+
+const steph = { 
+  first_name: 'Stephen',
+  last_name: 'Curry',
+  full_name: 'Stephen Curry',
+  player_id: 201939,
+  team_id: 1610612744,
+  team_name: 'Golden State Warriors',
+  position: 'Guard',
+  mins: 27.9,
+  fg_pct: 0.402,
+  ft_pct: 1,
+  threes_pg: 2.4,
+  rebs: 5.2,
+  asts: 6.6,
+  stls: 1,
+  blks: 0.4,
+  tovs: 3.2,
+  pts: 20.8 
+};
 
 class NBAFantasyProjector extends React.Component {
   constructor(props) {
@@ -10,19 +32,28 @@ class NBAFantasyProjector extends React.Component {
     this.state = {
       players: new Map(),
       startDate: '',
-      endDate: ''
+      endDate: '',
+      projection: null
     };
     this.addPlayer = this.addPlayer.bind(this);
+    this.insertPlayer = this.insertPlayer.bind(this);
     this.removePlayer = this.removePlayer.bind(this);
     this.updateDate = this.updateDate.bind(this);
+    this.generateProjection = this.generateProjection.bind(this);
   }
 
   addPlayer(player) {
+    //NBA.retrieve_player(player, console.log);
+    this.insertPlayer(steph);
+  }
+
+  insertPlayer(player_json) {
     this.setState({
-      players: new Map(this.state.players.set(player, player)),
+      players: new Map(this.state.players.set(player_json.full_name, player_json)),
       startDate: this.state.startDate,
-      endDate: this.state.endDate
-    });
+      endDate: this.state.endDate,
+      projection: this.state.projection
+    }, console.log(this.state));
   }
 
   displayState() {
@@ -35,7 +66,8 @@ class NBAFantasyProjector extends React.Component {
     this.setState({
       players: map,
       startDate: this.state.startDate,
-      endDate: this.state.endDate
+      endDate: this.state.endDate,
+      projection: this.state.projection
     });
   }
 
@@ -44,13 +76,15 @@ class NBAFantasyProjector extends React.Component {
       this.setState({
         players: this.state.players,
         startDate: newDate,
-        endDate: this.state.endDate
+        endDate: this.state.endDate,
+        projection: this.state.projection
       });
     } else if (dateType === 'end') {
       this.setState({
         players: this.state.players,
         startDate: this.state.startDate,
-        endDate: newDate
+        endDate: newDate,
+        projection: this.state.projection
       });
     }
   }
@@ -71,8 +105,25 @@ class NBAFantasyProjector extends React.Component {
     }
   }
 
+  generateProjection() {
+    if(this.state.players.size === 0)
+      return;
+    this.setState({
+      players: this.state.players,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      projection: new Map(this.state.players)
+    });
+  }
+
+  getProjection() {
+    if(this.state.projection === null) 
+      return null;
+    return Array.from(this.state.projection.values());
+  }
+
   render() {
-    //this.displayState();
+    this.displayState();
     return (
       <div>
         {site_header}
@@ -81,7 +132,8 @@ class NBAFantasyProjector extends React.Component {
           <Roster players={Array.from(this.state.players.keys())} removePlayer={this.removePlayer}/>
           <DateRange updateDate={this.updateDate} startDate={this.state.startDate} endDate={this.state.endDate}/>
           {this.invalidDate()}
-          <button className="btn btn-lg">Generate Fantasy Projection</button>
+          <button className="btn btn-lg" onClick={this.generateProjection}>Generate Fantasy Projection</button>
+          <Projection projection={this.getProjection()}/>
         </div>
       </div>
     );
