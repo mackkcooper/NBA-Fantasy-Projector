@@ -17,12 +17,12 @@ function get_player(player_name, func) {
 //console.log(player)
 
 // get team name by team id
-function get_team_name(team_id, player_obj, var_name, func) {
+function get_team_name(team_id, player_obj) {
     NBA.stats.teamInfoCommon({TeamID: team_id}).then(
         result => {
             var city = result.teamInfoCommon[0].teamCity;
             var name = result.teamInfoCommon[0].teamName;
-            func(city + " " + name, var_name, player_obj);
+            player_obj["team_name"] = city + " " + name;
         }
     );
 }
@@ -32,272 +32,60 @@ function get_team_name(team_id, player_obj, var_name, func) {
 //get_team_name(get_player("Stephen Curry").teamId, player_obj, "team_name", retrieve_var);
 //console.log("Outside: ", player_obj);
 
+function get_player_stats (player_id, player_obj, func) {
+    NBA.stats.playerSplits({PlayerID: player_id})
+    .then(players => 
+        func(players, player_obj)
+    )
+    .catch(error => {
+        console.log('Request failed', error);
+    });
+}
+
 // returns a json obj with all of the information of a player
 function retrieve_player (player_name) {
     var curr_player = NBA.findPlayer(player_name);
     var player_id = curr_player.playerId;
     var team_id = curr_player.teamId;
     var player = {
-        "first_name" : get_firstName(player_name),
-        "last_name"  : get_lastName(player_name),
-        "full_name"  : get_fullName(player_name),
+        "first_name" : curr_player.firstName,
+        "last_name"  : curr_player.lastName,
+        "full_name"  : curr_player.fullName,
         "player_id"  : player_id,
-        "team_id"    : team_id
+        "team_id"    : team_id,
     };
 
-    get_team_name (team_id, player, "team_name", retrieve_var);
-    get_draftYear (player_id, player, "draft_year", retrieve_var);
-    get_draftNumber (player_id, player, "draft_pick", retrieve_var);
-    get_minutes(player_id, player, "mins", retrieve_var);
-    get_FG(player_id, player, "fg_pct", retrieve_var);
-    get_FT(player_id, player, "ft_pct", retrieve_var);
-    get_3pm(player_id, player, "threes_pg", retrieve_var);
-    get_rebounds(player_id, player, "rebs", retrieve_var);
-    get_assists(player_id, player, "asts", retrieve_var);
-    get_steals(player_id, player, "steals", retrieve_var);
-    get_blocks(player_id, player, "blks", retrieve_var);
-    get_turnovers(player_id, player, "tov", retrieve_var);
-    get_points(player_id, player, "pts", retrieve_var);
-    get_positions(player_id, player, "position", retrieve_var);
-
-    //console.log(player);
+    get_team_name (team_id, player);
+    get_positions(player_id, player)
+    get_player_stats (player_id, player, insert_stats);
     return player;
 }
 //Test
 var player = retrieve_player("Damian Lillard");
 //console.log(player);
 
-function retrieve_var (variable, var_name, player_obj) {
-    player_obj[var_name] = variable;
-    console.log(player_obj);
-}
+function insert_stats (src_player, dest_player) {
+    dest_player["mins"] = src_player.overallPlayerDashboard[0].min;
+    dest_player["fg_pct"] = src_player.overallPlayerDashboard[0].fgPct;
+    dest_player["ft_pct"] = src_player.overallPlayerDashboard[0].ftPct;
+    dest_player["threes_pg"] = src_player.overallPlayerDashboard[0].fG3M;
+    dest_player["rebs"] = src_player.overallPlayerDashboard[0].reb;
+    dest_player["asts"] = src_player.overallPlayerDashboard[0].ast;
+    dest_player["stls"] = src_player.overallPlayerDashboard[0].stl;
+    dest_player["blks"] = src_player.overallPlayerDashboard[0].blk;
+    dest_player["tovs"] = src_player.overallPlayerDashboard[0].tov;
+    dest_player["pts"] = src_player.overallPlayerDashboard[0].pts;
 
-// retrieves the player's first name
-function get_firstName(player_name) { 
-    const player = NBA.findPlayer(player_name);
-    //console.log(player.firstName);
-    return player.firstName;
+    console.log(dest_player);
 }
-
-// retrieves the player's last name
-function get_lastName(player_name) { 
-    const player = NBA.findPlayer(player_name);
-    //console.log(player.lastName);
-    return player.lastName;
-}
-
-// retrieves the player's full name
-function get_fullName(player_name) { 
-    const player = NBA.findPlayer(player_name);
-    //console.log(player.fullname);
-    return player.fullName;   
-}
-
-// retrieves the player's team name
-function get_teamName(team_id) { 
-    NBA.stats.teamInfoCommon({TeamID: team_id})
-        .then(team => {
-            //console.log(team.teamInfoCommon[0].teamName);
-            const tname = team.teamInfoCommon[0].teamName;
-            //console.log(tname);
-            return tname
-        });
-    //console.log(team);
-    //return team.teamName;
-}
-
-// retrieves the player's city name
-function get_teamCity(team_id) { 
-    NBA.stats.teamInfoCommon({TeamID: team_id})
-        .then(team => {
-            console.log(team.teamInfoCommon[0].teamCity);
-            return team.teamInfoCommon[0].teamCity});
-}
-
-// retrieves the draft year of the player
-function get_draftYear(player_id, player_obj, var_name, func) {
-    NBA.stats.playerInfo({PlayerID: player_id})
-        .then(player => {
-            //console.log(player.commonPlayerInfo[0].draftYear);
-            func(player.commonPlayerInfo[0].draftYear, var_name, player_obj)
-    })
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-
-// retrieves the draft pick of the player
-function get_draftNumber(player_id, player_obj, var_name, func) {
-    NBA.stats.playerInfo({PlayerID: player_id})
-        .then(player => {
-            //console.log(player.commonPlayerInfo[0].draftNumber);
-            func(player.commonPlayerInfo[0].draftNumber, var_name, player_obj);
-    })
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-
-// retrieves the average minutes per game of the player
-function get_minutes(player_id, player_obj, var_name, func) { 
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].min, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-//Tests
-//var player = {};
-//get_minutes(get_player("Luka Doncic").playerId, player, "mins", retrieve_var);
-
-// retrieves the field goal percentage of the player
-function get_FG(player_id, player_obj, var_name, func) {
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].fgPct, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-//Tests
-//var player = {};
-//get_FG(get_player("Luka Doncic").playerId, player, "fg_pcts", retrieve_var);
-
-// retrieves the free throw percentage of the player
-function get_FT(player_id, player_obj, var_name, func) {
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].ftPct, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-//Tests
-//var player = {};
-//get_FT(get_player("Luka Doncic").playerId, player, "ft_pcts", retrieve_var);
-
-// retrieves the number of threes made per game of the player
-function get_3pm(player_id, player_obj, var_name, func) {
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].fG3M, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-//Tests
-//var player = {};
-//get_3pm(get_player("Luka Doncic").playerId, player, "threes_pg", retrieve_var);
-
-// retrieves the number of rebounds per game of the player
-function get_rebounds(player_id, player_obj, var_name, func) {
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].reb, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-//Tests
-//var player = {};
-//get_rebounds(get_player("Luka Doncic").playerId, player, "rebounds", retrieve_var);
-
-// retrieves the number of assists per game of the player
-function get_assists(player_id, player_obj, var_name, func) {
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].ast, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-
-// retrieves the number of steals per game of the player
-function get_steals(player_id, player_obj, var_name, func) {
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].stl, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-//Tests
-//var player = {};
-//get_steals(get_player("Luka Doncic").playerId, player, "steals", retrieve_var);
-
-// retrieves the number of blocks per game of the player
-function get_blocks(player_id, player_obj, var_name, func) {
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].blk, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-//Tests
-//var player = {};
-//get_blocks(get_blocks("Luka Doncic").playerId, player, "blocks", retrieve_var);
-
-// retrieves the number of turnovers per game of the player
-function get_turnovers(player_id, player_obj, var_name, func) {
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].tov, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-//Tests
-//var player = {};
-//get_turnovers(get_player("Luka Doncic").playerId, player, "tov", retrieve_var);
-
-// retrieves the number of points per game of the player
-function get_points(player_id, player_obj, var_name, func) {
-    NBA.stats.playerSplits({PlayerID: player_id})
-    .then(players => 
-        func(players.overallPlayerDashboard[0].pts, var_name, player_obj)
-    )
-    .catch(error => {
-        console.log('Request failed', error);
-    });
-}
-//Tests
-//var player = {};
-//get_points(get_player("Luka Doncic").playerId, player, "points", retrieve_var);
 
 // retrieves the positions of the player
-function get_positions(player_id, player_obj, var_name, func) {
+function get_positions(player_id, player_obj) {
     NBA.stats.playerInfo({PlayerID: player_id})
         .then(player => {
-            //console.log(player);
-            func(player.commonPlayerInfo[0].position, var_name, player_obj);
+            player_obj["position"] = player.commonPlayerInfo[0].position;
     })
     .catch(error => {
         console.log('Request failed', error);
     });
 }
-//Tests
-//var player = {};
-//get_positions(get_player("Luka Doncic").playerId, player, "position", retrieve_var);
-
-// Tests
-//fullname = get_fullName('Damian Lillard');
-//console.log(fullname)
-//tname = get_teamName('Damian Lillard');
-//console.log(tname)
-//get_teamCity('Damian Lillard');
-//get_teamName('stephen Curry');
-//city = get_teamCity('stephen Curry');
-//console.log(city);
-//get_minutes('Damian Lillard');
-//get_draftInfo('Damian Lillard');
