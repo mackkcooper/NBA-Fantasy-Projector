@@ -19,7 +19,7 @@ class Roster extends React.Component {
       <section className="container" id="player-roster">
         <div className="row">
           <div className="col-12">
-            <h1>Your Roster:</h1>
+            <h3>Your Roster:</h3>
             <table className="table">
               <thead>
                 <tr>
