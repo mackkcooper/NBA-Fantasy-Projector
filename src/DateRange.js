@@ -1,6 +1,10 @@
 import React from 'react';
 import './custom.scss';
 
+// This class represents the date range that the user can
+// input on the web page for projections. It has a start
+// date and a end date for the range. Also updates the
+// start date and the end date
 class DateRange extends React.Component {
   constructor(props) {
     super(props);
@@ -12,10 +16,14 @@ class DateRange extends React.Component {
     this.updateEnd = this.updateEnd.bind(this);
   }
 
+  // This function displays the state called on
+  // used for testing
   displayState() {
     console.log(this.state);
   }
 
+  // This function updates the start date based on
+  // the event that is passed in
   updateStart(event) {
     this.setState({
       startDate: event.target.value,
@@ -24,6 +32,8 @@ class DateRange extends React.Component {
     this.props.updateDate(event.target.value, 'start');
   }
 
+  // This function updates the end date based on
+  // the event that is passed in
   updateEnd(event) {
     this.setState({
       startDate: this.state.startDate,
@@ -32,6 +42,7 @@ class DateRange extends React.Component {
     this.props.updateDate(event.target.value, 'end');
   }
 
+  // HTML code for DateRange
   render() {
     //this.displayState();
     return (
