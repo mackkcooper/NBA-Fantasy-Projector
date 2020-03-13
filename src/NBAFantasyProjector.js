@@ -4,6 +4,11 @@ import PlayerSearch from './PlayerSearch';
 import Roster from './Roster';
 import DateRange from './DateRange';
 
+// This class represents the fantasy projector with a
+// map that stores all of the players the user searchs
+// the start date and end date that the user can input.
+// This class has functions to add and remove players
+// from the map and update the date on the projector
 class NBAFantasyProjector extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +22,8 @@ class NBAFantasyProjector extends React.Component {
     this.updateDate = this.updateDate.bind(this);
   }
 
+  // This function adds a player that is passed in to the
+  // players map
   addPlayer(player) {
     this.setState({
       players: new Map(this.state.players.set(player, player)),
@@ -25,10 +32,13 @@ class NBAFantasyProjector extends React.Component {
     });
   }
 
+  // This function displays the state called on
   displayState() {
     console.log(this.state);
   }
 
+  // This function removes a player that is passed in from
+  // the players map if that player is already in the map
   removePlayer(player) {
     var map = new Map(this.state.players);
     map.delete(player);
@@ -39,6 +49,8 @@ class NBAFantasyProjector extends React.Component {
     });
   }
 
+  // This function update the date for either the start or
+  // or end date based on the date type passed in.
   updateDate(newDate, dateType) {
     if(dateType === 'start') {
       this.setState({
@@ -55,6 +67,8 @@ class NBAFantasyProjector extends React.Component {
     }
   }
 
+  // This alerts the user if they input a start date that
+  // is after the end date
   invalidDate() {
     var start = new Date(this.state.startDate);
     var end = new Date(this.state.endDate);
@@ -71,6 +85,7 @@ class NBAFantasyProjector extends React.Component {
     }
   }
 
+  // HTML code for NBA FAtnasy Projector
   render() {
     //this.displayState();
     return (
