@@ -11,8 +11,8 @@ Prerequisites:
 Installing:
 `npm install`
 
-Deployment:
-Add additional notes about how to deploy this on a live system
+To run: Due to cors restrictions to have the webpage work correctly you need to remove security restrictions with:
+open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security
 
 Built With:
 - Node.js
