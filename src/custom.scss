@@ -29,6 +29,9 @@ code {
     &:hover {
         background-color: $link-color;
     }
+    &.game-btn {
+      margin: auto 1rem auto 1rem;
+    }
 }
 
 .label {
@@ -63,6 +66,19 @@ code {
 table {
   tr {
     color: $primary-font-color;
+  }
+  td.games-column {
+    width: 10rem;
+  }
+}
+
+#projection {
+  font-size: x-small;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  th, td {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
