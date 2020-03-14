@@ -6,22 +6,19 @@ time. So lets say you want to see how your team projects the upcoming week, this
 specify the period of time for your projection and the program will display the projects over the course of that period of times.
 
 Prerequisites:
-what things you need to install the software and how to install them
+[Node.js](https://nodejs.org/)
 
 Installing:
-examples
-
-Running tests:
-examples
+`npm install`
 
 Deployment:
 Add additional notes about how to deploy this on a live system
 
 Built With:
-- HTML
-- CSS with Bootstrap
-- Javascript
+- Node.js
 - React
+- Sass
+- Boostrap
 
 Version:
 Version 1.0
@@ -31,7 +28,7 @@ Mack Cooper
 Santiago Tobon
 
 License:
-This project is licensed under the MIT License - see the LICENSE file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/mackkcooper/NBA-Fantasy-Projector/blob/master/LICENSE) file for details
 
 Acknowledgements:
 - NBA API - author: bttmly - https://github.com/bttmly/nba
