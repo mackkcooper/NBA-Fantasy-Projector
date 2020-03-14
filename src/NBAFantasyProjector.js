@@ -60,6 +60,13 @@ class NBAFantasyProjector extends React.Component {
   plusGame(player_name) {
     var player_json = this.state.players.get(player_name);
     player_json.gms = player_json.gms + 1;
+    this.setState({
+      players: new Map(this.state.players.set(player_json.full_name, player_json)),
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      projection: this.state.projection
+    });
+  }
 
   minusGame(player_name) {
     var player_json = this.state.players.get(player_name);
