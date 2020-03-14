@@ -4,10 +4,13 @@ import RosterLine from './RosterLine';
 
 class Roster extends React.Component {
   generateLines() {
+    var players_array = this.props.players;
     var removePlayer = this.props.removePlayer;
-    return this.props.players.map(function(name, index) {
+    var plusGame = this.props.plusGame;
+    var minusGame = this.props.minusGame;
+    return players_array.map(function(player, index) {
       return (
-        <RosterLine name={name} index={index + 1} key={index + 1} removePlayer={removePlayer}/>
+        <RosterLine name={player.full_name} team={player.team_name} position={player.position} games={player.gms} key={index} plusGame={plusGame} minusGame={minusGame} removePlayer={removePlayer}/>
       );
     });
   }
@@ -23,9 +26,11 @@ class Roster extends React.Component {
             <table className="table">
               <thead>
                 <tr>
-                  <th width="2rem" scope="col">#</th>
                   <th scope="col">Name</th>
-                  <th></th>
+                  <th scope="col">Team</th>
+                  <th scope="col">Position</th>
+                  <th scope="col">Games</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>

@@ -17,6 +17,7 @@ function retrieve_player(player_name, callback) {
     "full_name"  : player.fullName,
     "player_id"  : player_id,
     "team_id"    : team_id,
+    "gms"        : 0
   };
   get_team_name(player_obj, callback);
 }
@@ -54,6 +55,8 @@ function insert_stats(src_player, dest_player, callback) {
   dest_player["mins"] = src_player.overallPlayerDashboard[0].min;
   dest_player["fg_pct"] = src_player.overallPlayerDashboard[0].fgPct;
   dest_player["ft_pct"] = src_player.overallPlayerDashboard[0].ftPct;
+  dest_player["fga"] = src_player.overallPlayerDashboard[0].fga;
+  dest_player["fta"] = src_player.overallPlayerDashboard[0].fta;
   dest_player["threes_pg"] = src_player.overallPlayerDashboard[0].fG3M;
   dest_player["rebs"] = src_player.overallPlayerDashboard[0].reb;
   dest_player["asts"] = src_player.overallPlayerDashboard[0].ast;
