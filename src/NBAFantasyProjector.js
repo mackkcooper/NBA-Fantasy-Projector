@@ -57,6 +57,8 @@ class NBAFantasyProjector extends React.Component {
     //this.insertPlayer(steph);
   }
 
+  // This function adds a game to the players game total
+  // This is used for when the user inputs the games played
   plusGame(player_name) {
     var player_json = this.state.players.get(player_name);
     player_json.gms = player_json.gms + 1;
@@ -68,6 +70,8 @@ class NBAFantasyProjector extends React.Component {
     });
   }
 
+  // This function subtracts a game to the players game total
+  // This is used for when the user inputs the games played
   minusGame(player_name) {
     var player_json = this.state.players.get(player_name);
     if(player_json.gms === 0)
@@ -81,6 +85,7 @@ class NBAFantasyProjector extends React.Component {
     });
   }
 
+  // This function inserts the player json object into the players map
   insertPlayer(player_json) {
     this.setState({
       players: new Map(this.state.players.set(player_json.full_name, player_json)),
@@ -145,7 +150,9 @@ class NBAFantasyProjector extends React.Component {
       );
     }
   }
-
+  
+  // This function generates the projections of the team by calculating
+  // the averages and sums for each of the categories
   generateProjection() {
     if(this.state.players.size === 0)
       return;
@@ -177,6 +184,7 @@ class NBAFantasyProjector extends React.Component {
     });
   }
 
+  // This function is for retrieving the projection values from the array
   getProjection() {
     if(this.state.projection === null) 
       return null;
