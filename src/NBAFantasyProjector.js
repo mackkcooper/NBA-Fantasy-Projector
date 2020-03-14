@@ -26,6 +26,11 @@ import * as NBA from './NBA-api';
 //   pts: 20.8 
 // };
 
+// This class represents the fantasy projector with a
+// map that stores all of the players the user searchs
+// the start date and end date that the user can input.
+// This class has functions to add and remove players
+// from the map and update the date on the projector
 class NBAFantasyProjector extends React.Component {
   constructor(props) {
     super(props);
@@ -44,6 +49,8 @@ class NBAFantasyProjector extends React.Component {
     this.minusGame = this.minusGame.bind(this);
   }
 
+  // This function adds a player that is passed in to the
+  // players map
   addPlayer(player_name) {
     NBA.retrieve_player(player_name, this.insertPlayer);
     //NBA.retrieve_player(player_name, console.log);
@@ -53,13 +60,6 @@ class NBAFantasyProjector extends React.Component {
   plusGame(player_name) {
     var player_json = this.state.players.get(player_name);
     player_json.gms = player_json.gms + 1;
-    this.setState({
-      players: new Map(this.state.players.set(player_json.full_name, player_json)),
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
-      projection: this.state.projection
-    });
-  }
 
   minusGame(player_name) {
     var player_json = this.state.players.get(player_name);
@@ -83,10 +83,13 @@ class NBAFantasyProjector extends React.Component {
     });
   }
 
+  // This function displays the state called on
   displayState() {
     console.log(this.state);
   }
 
+  // This function removes a player that is passed in from
+  // the players map if that player is already in the map
   removePlayer(player) {
     var map = new Map(this.state.players);
     map.delete(player);
@@ -98,6 +101,8 @@ class NBAFantasyProjector extends React.Component {
     });
   }
 
+  // This function update the date for either the start or
+  // or end date based on the date type passed in.
   updateDate(newDate, dateType) {
     if(dateType === 'start') {
       this.setState({
@@ -116,6 +121,8 @@ class NBAFantasyProjector extends React.Component {
     }
   }
 
+  // This alerts the user if they input a start date that
+  // is after the end date
   invalidDate() {
     var start = new Date(this.state.startDate);
     var end = new Date(this.state.endDate);
@@ -169,6 +176,7 @@ class NBAFantasyProjector extends React.Component {
     return Array.from(this.state.projection.values());
   }
 
+  // HTML code for NBA Fantasy Projector
   render() {
     //this.displayState();
     return (
